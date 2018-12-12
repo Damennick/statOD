@@ -1,0 +1,15 @@
+function [outputArg1,outputArg2] = addNoise(v,inputArg2)
+% =========================================
+% =========================================
+%
+% Add Noise
+% By: Damennick Henry and Jordan Murphy
+% Date: 12/19/18
+% Description: Adds noise to vector quantities
+% Inputs
+%       v - Vectors to add n
+%
+% =========================================
+% =========================================
+end
+
