@@ -29,6 +29,7 @@ xt = zeros(4,length(t));
 xt(:,1) = x0;
 options = odeset('RelTol', 1e-10, 'AbsTol', 1e-10);
 [~, xNoNoise] = ode45(@(t,x) nonlinOrbitSim(t,x,mu,zeros(2,1)),t,xt(:,1),options);
+xNoNoise = xNoNoise';
 for idx = 1:length(t)-1
     % Time span for simulation
     tspan = t(idx):dt:t(idx + 1);

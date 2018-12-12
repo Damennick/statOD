@@ -12,7 +12,7 @@ clear all; close all
 addpath('..')
 addpath('../03_Simulation')
 addpath('../01_DataVis')
-rng(23)
+% rng(23)
 %% Parameters
 % Earth's graviational parameter [km^3/s^2]
 mu = 3.986e5;
@@ -25,7 +25,7 @@ n = sqrt(mu/(r0^3));
 % Sampling time
 dt = 10;
 % Final simulation time
-tf = 100;
+tf = T;
 % Simulation time vector
 t = 0:dt:tf;
 % Initial state
