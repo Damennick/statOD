@@ -1,4 +1,4 @@
-function [xhat, yhat, dxhat, sigmas] = extendedKF(t, y, dx0, P0, mu, r0, dt, Q, T, R)
+function [xhatplus, sigmas, NEES, NIS, inn, mesSigmas] = extendedKF(t, xtrue, y, dx0, P0, mu, r0, dt, Q, T, R)
 % =========================================
 % =========================================
 %
@@ -44,7 +44,12 @@ sigmas = xhatplus;
 % Initial sigmas
 Pplus = P0;
 sigmas(:,1) = sqrt(diag(Pplus));
+% Measurment standard deviations
+mesSigmas = nan(6,length(t)-1);
 
+NEES = zeros(1,length(t)-1);
+NIS  = zeros(1,length(t)-1);
+inn = nan(6,length(t)-1);
 
 %% Filter
 for idx = 2:length(t)
@@ -53,12 +58,10 @@ for idx = 2:length(t)
     % Update xhatminus using integration
     [~,xhatminus] = ode45(@(t,x) nonlinOrbitSim(t,x,mu,wk), [0 dt], xhatplus(:,idx-1));
     xhatminus = xhatminus(end,:)';
-    % Compute dynamics matrix
-    Anom = dynMatrix(t(idx-1), mu, n, r0);
     % State transition matrix
-    F = eye(4) + Anom*dt;
+    F = eye(4) + dt * getJac(xhatminus, mu);
     % Covariance prediction
-    Pminus = F*Pplus*F' + Omega*Q*Omega';
+    Pminus = F*Pplus*F' + Q;
 
     % ------------------------------------------------------
     
@@ -68,29 +71,35 @@ for idx = 2:length(t)
     yhatminus = getY(t(idx), xhatminus, false);
     % Compute Sensing Matrix
     H = calcH(xhatminus, t(idx));
-    % Measurement perturbation error
-    ey = y(:,idx) - yhatminus;
-    ey = ey(~isnan(ey));
-    %Gain Matrix
-    Rblk = repmat({R}, 1, length(ey)/3);
-    Rblk = blkdiag(Rblk{:});
-    K = Pminus * H' / (H * Pminus * H' + Rblk);
-    % Fix Kalman gain so that it corresponds to when both measurements are
+    % Fix Sensing Matrix so that it corresponds to when both measurements are
     % seen
-    K = K(:,1:length(ey));
-    % Same for the sensing matrix
-    H = H(1:length(ey),:);
+    H = H(~isnan(y(:,idx-1)),:);
+    % Measurement perturbation error
+    ey = y(:,idx-1) - yhatminus;
+    ey = ey(~isnan(ey));
     if isempty(ey)
         K = zeros(4,3);
         H = zeros(3,4);
         ey = zeros(3,1);
     end
+    %Gain Matrix
+    Rblk = repmat({R}, 1, length(ey)/3);
+    Rblk = blkdiag(Rblk{:});
+    K = Pminus * H' / (H * Pminus * H' + Rblk);
+   
     % State measurement update
     xhatplus(:,idx) = xhatminus + K * ey;
+
     % Covariance measurement update
-    Pplus = (eye('like', K*H) - K*H) * Pminus;
+    Pplus = (eye(4) - K*H) * Pminus * (eye(4) - K*H)' + K*Rblk*K';
     % Standard deviation
     sigmas(:,idx) = sqrt(diag(Pplus));
+    % S matrix
+    S = H*Pminus*H' + Rblk;
+    % Measurement Sigmas
+    mesSigmas(1:length(ey),idx-1) = sqrt(diag(S));
+    [NEES(idx-1), NIS(1,idx-1)] = calcNEESNIS(xtrue(:,idx) - xhatplus(:,idx), ...
+        ey, Pplus, S);
     % ------------------------------------------------------
 end
 end

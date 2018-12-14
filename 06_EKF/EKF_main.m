@@ -9,6 +9,7 @@
 % =========================================
 % =========================================
 %% Parameters
+Q_EKF = diag([1E-8 1E-7 1E-8 1E-7]);
 % Earth's graviational parameter [km^3/s^2]
 mu = 3.986e5;
 % Nominal orbit radius [km]
@@ -41,4 +42,8 @@ dx = xtrue - xnom;
 P0 = diag([10, 1, 10, 1]);
 dx0hat = dx0;
 k = 0;
-[xhat, yhat, dxhat, sigmas] = extendedKF(t, ytrue, dx0hat, P0, mu, r0, dt, Qtrue, gamma, Rtrue);
+[xhat, sigmas, NEES, NIS, inn, mesSigmas] = extendedKF(t, xtrue, ytrue, dx0hat, P0, mu, r0, dt, Q_EKF, gamma, Rtrue);
+%% Data Visualization
+plotMeasurements(ytrue,t(2:end));
+plotStateErrors(t, xtrue - xhat,sigmas);
+compareStates(xhat,xtrue,t,t);

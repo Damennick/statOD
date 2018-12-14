@@ -1,4 +1,4 @@
-function H = calcH(xnom, t)
+function Hf = calcH(xnom, t)
 % =========================================
 % =========================================
 %
@@ -31,6 +31,8 @@ if m == 2
     debug = 1;
 end
 
+Hf = [];
+
 % Create sensing matrix
 for jdx = 1:m
     % Range for station
@@ -41,6 +43,7 @@ for jdx = 1:m
     H = [H; calcRhoDotdx(xnom,XS(jdx), YS(jdx), XSdot(jdx), YSdot(jdx), range)];
     % Third row
     H = [H; calcPhidx(xnom,XS(jdx),YS(jdx),range)];
+    Hf = [Hf; H];
 
 end
 end
