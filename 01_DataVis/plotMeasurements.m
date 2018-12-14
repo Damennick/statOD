@@ -23,15 +23,15 @@ map = colormap(lines(12));
 for idx = 1:12
     subplot(3,1,1)
     hold on
-    plot(t,y((3*idx - 2),:),'o','Color', map(idx, :))
+    plot(t,y((3*idx - 2),:),'x','Color', map(idx, :))
     
     subplot (3,1,2)
     hold on
-    plot(t,y((3*idx - 1),:),'o','Color', map(idx, :))
+    plot(t,y((3*idx - 1),:),'x','Color', map(idx, :))
     
     subplot (3,1,3)
     hold on
-    plot(t,y((3*idx),:),'o','Color', map(idx, :))
+    plot(t,y((3*idx),:),'x','Color', map(idx, :))
 end
 
 end

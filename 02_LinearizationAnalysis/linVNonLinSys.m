@@ -29,9 +29,6 @@ x0 = [6678; 0; 0; r0*sqrt(mu/(r0^3))];
 % Perturbation from initial state
 dx0 = [0; 0.075; 0; -0.021];
 
-%% Linear system
-[xlin, ylin, dx] = linOrbitSim(tlin,dx0,mu,r0,dt);
-
 %% Nonlinear system
 tspan = tlin;
 options = odeset('RelTol', 1e-10, 'AbsTol', 1e-10);
@@ -39,24 +36,27 @@ options = odeset('RelTol', 1e-10, 'AbsTol', 1e-10);
 xnonlin = xnonlin';
 ynonlin = getY(tnonlin,xnonlin);
 
+%% Linear system
+[xlin, ylin, dx] = linOrbitSim(tlin,dx0,mu,r0,dt,xnonlin);
+
 %% Data Visualization
 % Compare the states
 fig = compareStates(xlin, xnonlin, tlin, tnonlin);
 fig.PaperUnits = 'inches';
 fig.PaperPosition = [0 0 4 7];
-print('../../Images/NLvL', '-dpng', '-r200')
+% print('../../Images/NLvL', '-dpng', '-r200')
 
 % Compare measurements
-fig = compareMes(ylin, ynonlin, tlin, tnonlin);
+fig = compareMes(ylin, ynonlin, tlin(2:end), tnonlin);
 fig.PaperUnits = 'inches';
 fig.PaperPosition = [0 0 4 7];
-print('../../Images/Mescomp', '-dpng', '-r200')
+% print('../../Images/Mescomp', '-dpng', '-r200')
 
 % Plot perturbations
 fig = plotStates(dx,tlin);
 fig.PaperUnits = 'inches';
 fig.PaperPosition = [0 0 4 7];
-print('../../Images/perts', '-dpng', '-r200')
+% print('../../Images/perts', '-dpng', '-r200')
 
 % Plot linearized measurements
-fig = plotMeasurements(ylin,tlin);
+fig = plotMeasurements(ylin,tlin(2:end));

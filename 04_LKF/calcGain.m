@@ -21,10 +21,8 @@ function [Hf, dyhat, K] = calcGain(xnom, dxhat, Pminus, t, R)
 % =========================================
 % =========================================
 
-% Estimated state
-xhat = xnom + dxhat;
 % Station positions
-[XS, YS, XSdot, YSdot, si] = getStationPositions(xhat, t);
+[XS, YS, XSdot, YSdot] = getStationPositions(xnom, t, false);
 % Number of stations visible
 [~, m] = size(YS);
 if m == 2
@@ -37,19 +35,19 @@ Hf = [];
 % Kalman gain matrix
 K = [];
 % Create sensing matrix
-for jdx = 1:m
+for idx = 1:m
     % Range for station
-    range = sqrt((xnom(1) - XS(jdx))^2 + (xnom(3) - YS(jdx))^2);
+    range = sqrt((xnom(1) - XS(idx))^2 + (xnom(3) - YS(idx))^2);
     % First row of sensing matrix for station
-    H = calcRhodx(xnom,XS(jdx),YS(jdx),range);
+    H = calcRhodx(xnom,XS(idx),YS(idx),range);
     % Second row
-    H = [H; calcRhoDotdx(xnom,XS(jdx), YS(jdx), XSdot(jdx), YSdot(jdx), range)];
+    H = [H; calcRhoDotdx(xnom,XS(idx), YS(idx), XSdot(idx), YSdot(idx), range)];
     % Third row
-    H = [H; calcPhidx(xnom,XS(jdx),YS(jdx),range)];
-    dyhat((3*si(jdx))-2:3*si(jdx)) = H*dxhat(:);
+    H = [H; calcPhidx(xnom,XS(idx),YS(idx),range)];
+    dyhat((3*idx)-2:3*idx) = H*dxhat(:);
     Hf = [Hf; H];
     if nargin > 3
-        K = [K, Pminus*H'/(H*Pminus*H' + R)];
+        K = [K, (Pminus*H')/(H*Pminus*H' + R)];
     end
 end
 end

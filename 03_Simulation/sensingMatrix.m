@@ -1,4 +1,4 @@
-function [Hf, dyhat, K] = sensingMatrix(xnom, dxhat, t,Pminus, R)
+function [Hf, dyhat, K] = sensingMatrix(xnom, xnonlin, dxhat, t,Pminus, R)
 % =========================================
 % =========================================
 %
@@ -22,9 +22,9 @@ function [Hf, dyhat, K] = sensingMatrix(xnom, dxhat, t,Pminus, R)
 % =========================================
 
 % Estimated state
-xhat = xnom + dxhat;
+% xhat = xnom + dxhat;
 % Station positions
-[XS, YS, XSdot, YSdot, si] = getStationPositions(xhat, t);
+[XS, YS, XSdot, YSdot, si] = getStationPositions(xnonlin, t,true);
 % Number of stations visible
 [~, m] = size(YS);
 if m == 2
@@ -48,7 +48,7 @@ for jdx = 1:m
     H = [H; calcPhidx(xnom,XS(jdx),YS(jdx),range)];
     dyhat((3*si(jdx))-2:3*si(jdx)) = H*dxhat(:);
     Hf = [Hf; H];
-    if nargin > 3
+    if nargin > 4
         K = [K, Pminus*H'/(H*Pminus*H' + R)];
     end
 end

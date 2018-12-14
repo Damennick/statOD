@@ -1,4 +1,4 @@
-function fig = plotStateErrors(t, e, sigmas)
+function fig = plotStateErrors(t, e, sigmas, fig)
 % =========================================
 % =========================================
 %
@@ -18,7 +18,12 @@ function fig = plotStateErrors(t, e, sigmas)
 % =========================================
 
 % Plot first state
-fig = figure;
+if nargin > 3
+    figure(fig.Number)
+    clf
+else
+    fig = figure;
+end
 subplot(4,1,1)
 hold on
 box on

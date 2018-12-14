@@ -1,4 +1,4 @@
-function [xt, yt] = genTruth(t, dt, mu, x0, T, Q, R)
+function [xt, yt, xNoNoise, yNoNoise] = genTruth(t, dt, mu, x0, T, Q, R)
 % =========================================
 % =========================================
 %
@@ -45,7 +45,8 @@ end
 
 %% True Measuremetns
 % Get measurements
-yt = getY(t(2:end),xt(:,2:end));
+yt = getY(t(2:end),xt(:,2:end), true);
+yNoNoise = getY(t(2:end), xNoNoise(:,2:end),true);
 % Add noise
 R = repmat({R}, 1, 12);
 R = blkdiag(R{:});

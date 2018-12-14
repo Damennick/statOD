@@ -1,4 +1,4 @@
-function [x, y, dx] = linOrbitSim(t, dx0, mu, r0,dt)
+function [x, y, dx] = linOrbitSim(t, dx0, mu, r0,dt, xnonlin)
 % =========================================
 % =========================================
 %
@@ -14,7 +14,7 @@ function [x, y, dx] = linOrbitSim(t, dx0, mu, r0,dt)
 n = sqrt(mu/(r0^3));
 % Nominal trajectory
 xnom = [r0*cos(n*t); -r0*n*sin(n*t); r0*sin(n*t); r0*n*cos(n*t)];
-ynom = getY(t,xnom);
+ynom = getY(t(2:end),xnom(:,2:end));
 dx = zeros(4,length(xnom));
 dx(:,1) = dx0;
 % Initialize state trajectories
@@ -32,7 +32,7 @@ for idx = 2:length(t)
     % Propogate state
     dx(:,idx) = F*dx(:,idx-1);
     x(:,idx) = xnom(:,idx) + dx(:,idx);
-    [~, dy, ~] = sensingMatrix(xnom(:,idx),dx(:,idx),t(idx));
+    [~, dy, ~] = sensingMatrix(xnom(:,idx),xnonlin(:,idx),dx(:,idx),t(idx));
     % Measurement
     y(:,idx-1) = ynom(:,idx-1) + dy;
 end
