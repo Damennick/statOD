@@ -12,8 +12,8 @@ clear all; close all
 addpath('..')
 addpath('../03_Simulation')
 addpath('../01_DataVis')
-addpath('../04_LKF')
-% addpath('../05_EKF') 
+%addpath('../04_LKF')
+addpath('../06_EKF') 
 
 %% Parameters
 % Model parameters
@@ -30,6 +30,8 @@ n = sqrt(mu/(r0^3));
 dt = 10;
 % Noise to state matrix
 gamma = [0 0; 1 0; 0 0; 0 1];
+
+Q_EKF = .95 * diag([1E-8 1E-7 1E-8 1E-7]);
 % ------------------------------------------------
 
 % Simulation parameters
@@ -47,7 +49,7 @@ N = 1000;
 % Filter parameters
 % ------------------------------------------------
 % Flag that determines which filter to use: L = LKF, E = EKF
-filter = 'L';
+filter = 'E';
 % Nominal beginning state
 x0 = [6678; 0; 0; r0*sqrt(mu/(r0^3))];
 % Perturbation from initial state
@@ -87,12 +89,11 @@ for idx = 1:N
 %         shg
         allNEES(idx,:) =  NEES;
         allNIS(idx,:) = NIS;
-    elseif fitler == 'E'
-        %
-        %
-        % Call EKF
-        % 
-        %
+    elseif filter == 'E'
+        [xhat, sigmas, NEES, NIS, inn, mesSigmas] = ...
+            extendedKF(t, xtrue, ytrue, dx0hat, P0, mu, r0, dt, Q_EKF, gamma, Rtrue);
+        allNEES(idx,:) =  NEES;
+        allNIS(idx,:) = NIS;
     end
     % ------------------------------------------------
 end
