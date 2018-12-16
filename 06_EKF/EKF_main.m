@@ -27,7 +27,7 @@ t = 0:dt:tf;
 % Initial state
 x0 = [6678; 0; 0; r0*sqrt(mu/(r0^3))];
 % Perturbation from initial state
-dx0 = [0; 0; 0; 0];
+dx0 = [-10; -.04; -10; -.04];
 % Noise to state matrix
 gamma = [0 0; 1 0; 0 0; 0 1];
 load('orbitdeterm_finalproj_KFdata.mat')

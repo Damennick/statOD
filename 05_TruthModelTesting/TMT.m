@@ -12,7 +12,7 @@ clear all; close all
 addpath('..')
 addpath('../03_Simulation')
 addpath('../01_DataVis')
-%addpath('../04_LKF')
+addpath('../04_LKF')
 addpath('../06_EKF') 
 
 %% Parameters
@@ -31,7 +31,7 @@ dt = 10;
 % Noise to state matrix
 gamma = [0 0; 1 0; 0 0; 0 1];
 
-Q_EKF = .95 * diag([1E-8 1E-7 1E-8 1E-7]);
+Q_EKF = .919 * diag([1E-8 1E-7 1E-8 1E-7]);
 % ------------------------------------------------
 
 % Simulation parameters

@@ -59,7 +59,7 @@ for idx = 2:length(t)
     [~,xhatminus] = ode45(@(t,x) nonlinOrbitSim(t,x,mu,wk), [0 dt], xhatplus(:,idx-1));
     xhatminus = xhatminus(end,:)';
     % State transition matrix
-    F = eye(4) + dt * getJac(xhatminus, mu);
+    F = eye(4) + dt * getJac(xhatplus(:,idx-1), mu);
     % Covariance prediction
     Pminus = F*Pplus*F' + Q;
 
