@@ -21,6 +21,7 @@ function fig = performNISTest(NIS,y,alpha)
 
 fig = figure;
 hold on
+box on
 % Number of trials and number of chivars in a run
 [N,K] = size(NIS);
 % Sample mean
@@ -52,4 +53,6 @@ for idx = 1:nSize
 end
 legend('Measurement Size = 3', 'Measurement Size = 6')
 disp(['In bounds: ' num2str(inBounds/K)])
+xlabel('Time Step')
+ylabel('NIS')
 end

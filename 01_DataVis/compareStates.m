@@ -23,34 +23,35 @@ fig = figure;
 subplot(4,1,1)
 hold on
 box on
-plot(tl,xl(1,:),'r--')
 plot(tn,xn(1,:),'k')
-ylabel('$$X$$')
+plot(tl,xl(1,:),'r--')
+ylabel('$$X$$ (km)')
 legend
 
 % Plot second state
 subplot(4,1,2)
 hold on
 box on
-plot(tl,xl(2,:),'r--')
 plot(tn,xn(2,:),'k')
-ylabel('$$\dot{X}$$')
+plot(tl,xl(2,:),'r--')
+ylabel('$$\dot{X}$$ (km/s)')
 
 % Plot third state
 subplot(4,1,3)
 hold on
 box on
-plot(tl,xl(3,:),'r--')
 plot(tn,xn(3,:),'k')
-ylabel('$$Y$$')
+plot(tl,xl(3,:),'r--')
+ylabel('$$Y$$ (km)')
 
 % Plot fourth state
 subplot(4,1,4)
 hold on
 box on
-plot(tl,xl(4,:),'r--')
 plot(tn,xn(4,:),'k')
-ylabel('$$\dot{Y}$$')
+plot(tl,xl(4,:),'r--')
+ylabel('$$\dot{Y}$$ (km/s)')
+xlabel('Time (s)')
 
 
 end

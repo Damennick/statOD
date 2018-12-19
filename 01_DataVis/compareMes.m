@@ -34,14 +34,15 @@ for idx = 1:9
    plot(tl,yl(idx,:),'rx')
    plot(tn,yn(idx,:),'k*')
    if idx == 1
-       title('Range [km]')
+       title('Range (km)')
        legend('Linear', 'Nonlinear')
    end
    if idx == 2
-       title('Range Rate [km/s]')
+       title('Range Rate (km/s)')
    end
    if idx == 3
-       title('Elevation [rad]')
+       title('Elevation (rad)')
+       xlabel('Time (s)')
    end
 end
 

@@ -14,7 +14,7 @@ function [x, y, dx] = linOrbitSim(t, dx0, mu, r0,dt, xnonlin)
 n = sqrt(mu/(r0^3));
 % Nominal trajectory
 xnom = [r0*cos(n*t); -r0*n*sin(n*t); r0*sin(n*t); r0*n*cos(n*t)];
-ynom = getY(t(2:end),xnom(:,2:end));
+ynom = getY(t(2:end),xnom(:,2:end), false);
 dx = zeros(4,length(xnom));
 dx(:,1) = dx0;
 % Initialize state trajectories

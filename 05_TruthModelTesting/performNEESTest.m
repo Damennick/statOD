@@ -21,6 +21,7 @@ function fig = performNEESTest(chiVar, n, alpha)
 
 fig = figure;
 hold on
+box on
 % Number of trials and number of chivars in a run
 [N,K] = size(chiVar);
 % Sample mean
@@ -33,3 +34,6 @@ plot(r1*ones(size(1:K)), 'r--')
 plot(r2*ones(size(1:K)), 'r--')
 ylim([r1 - r1/2, r2 + r2/2])
 disp(['In bounds: ' num2str(numel(find(sampMean > r1 & sampMean < r2))/K)])
+xlabel('Time Step')
+ylabel('NEES')
+end

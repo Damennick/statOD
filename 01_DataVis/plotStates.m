@@ -21,30 +21,33 @@ subplot(4,1,1)
 hold on
 box on
 plot(t,x(1,:),'k')
-ylabel('$$ X$$')
+ylabel('$$X$$ (km)')
 
 % Plot second perturbation
 subplot(4,1,2)
 hold on
 box on
 plot(t,x(2,:),'k')
-ylabel('$$ \dot{X}$$')
+ylabel('$$ \dot{X}$$ (km/s)')
 
 % Plot third perturbation
 subplot(4,1,3)
 hold on
 box on
 plot(t,x(3,:),'k')
-ylabel('$$ Y$$')
+ylabel('$$ Y$$ (km)')
 
 % Plot fourth perturbation
 subplot(4,1,4)
 hold on
 box on
 plot(t,x(4,:),'k')
-ylabel('$$ \dot{Y}$$')
+ylabel('$$ \dot{Y}$$ (km/s)')
+xlabel('Time (s)')
 
 if nargin > 2
-    suptitle(titletext)
+    h = suptitle('');
+    h.Interpreter = 'latex';
+    h.String = titletext;
 end
 end

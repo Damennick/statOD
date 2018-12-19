@@ -56,7 +56,7 @@ Pk{1} = P0;
 sigmas(:,1) = sqrt(diag(PPrev));
 NEES = zeros(1,length(t)-1);
 NIS  = zeros(1,length(t)-1);
-inn = nan(6,length(t)-1);
+inn  = nan(6,length(t)-1);
 %% Filter
 for idx = 2:length(t)
     % Prediction Update

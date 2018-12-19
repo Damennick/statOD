@@ -30,7 +30,7 @@ box on
 plot(t,e(1,:),'k')
 plot(t,2*sigmas(1,:),'r--')
 plot(t,-2*sigmas(1,:),'r--', 'HandleVisibility','off')
-ylabel('$$X$$')
+ylabel('$$X$$ (km)')
 legend
 
 % Plot second state
@@ -40,7 +40,7 @@ box on
 plot(t,e(2,:),'k')
 plot(t,2*sigmas(2,:),'r--')
 plot(t,-2*sigmas(2,:),'r--', 'HandleVisibility','off')
-ylabel('$$\dot{X}$$')
+ylabel('$$\dot{X}$$ (km/s)')
 
 % Plot third state
 subplot(4,1,3)
@@ -49,7 +49,7 @@ box on
 plot(t,e(3,:),'k')
 plot(t,2*sigmas(3,:),'r--')
 plot(t,-2*sigmas(3,:),'r--', 'HandleVisibility','off')
-ylabel('$$Y$$')
+ylabel('$$Y$$ (km)')
 
 % Plot fourth state
 subplot(4,1,4)
@@ -58,6 +58,7 @@ box on
 plot(t,e(4,:),'k')
 plot(t,2*sigmas(4,:),'r--')
 plot(t,-2*sigmas(4,:),'r--', 'HandleVisibility','off')
-ylabel('$$\dot{Y}$$')
+ylabel('$$\dot{Y}$$ (km/s)')
+xlabel('Time (s)')
 
 end

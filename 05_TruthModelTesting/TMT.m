@@ -53,12 +53,12 @@ x0 = [6678; 0; 0; r0*sqrt(mu/(r0^3))];
 % Perturbation from initial state
 dx0hat = [0; 0; 0; 0];
 % Initial covariance guess
-P0 = diag([1e-8, 1e-9, 1e-7, 1e-8])
+P0 = diag([1e-8, 1e-9, 1e-7, 1e-8]);
 % Initial covarianc guess Cholesky factorization
-SvP0 = chol(P0);
+SvP0 = chol(P0,'lower');
 % Kalman Filter process noise covariance
 load('orbitdeterm_finalproj_KFdata.mat')
-QLKF = diag([1e-8, 1e-7, 1e-8, 1e-7]);
+QLKF = diag([1e-8, 1e-7, 1e-8, 1e-7])*0.95;
 % ------------------------------------------------
 
 
@@ -99,6 +99,12 @@ end
 
 %% Perform chi-square tests
 % Perform NEES testing
-performNEESTest(allNEES,4,0.05);
+fig = performNEESTest(allNEES,4,0.05);
+fig.PaperUnits = 'inches';
+fig.PaperPosition = [0 0 4 4];
+print('../07_Images/02_LKFAnalysis/NEES', '-dpng', '-r200')
 % Perform NIS test
-performNISTest(allNIS, ytrue, 0.05);
+fig = performNISTest(allNIS, ytrue, 0.05);
+fig.PaperUnits = 'inches';
+fig.PaperPosition = [0 0 4 4];
+print('../07_Images/02_LKFAnalysis/NIS', '-dpng', '-r200')
